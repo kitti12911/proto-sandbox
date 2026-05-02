@@ -102,7 +102,7 @@ Set a stable package and Go package option:
 ```protobuf
 package service_name.v1;
 
-option go_package = "grpc-sandbox/gen/grpc/foo/v1;foov1";
+option go_package = "github.com/kitti12911/proto-sandbox/gen/grpc/foo/v1;foov1";
 ```
 
 Then run:

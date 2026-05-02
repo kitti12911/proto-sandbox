@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package common.v1;
 
-option go_package = "grpc-sandbox/gen/grpc/common/v1;commonv1";
+option go_package = "github.com/kitti12911/proto-sandbox/gen/grpc/common/v1;commonv1";
 
 message PaginationRequest {
   int32 page = 1;
