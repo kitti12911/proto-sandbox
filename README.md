@@ -1,7 +1,7 @@
 # proto-sandbox
 
 Central protobuf definitions for sandbox services. Gateway repos such as
-`openapi-template` and `gql-template` can generate protobuf clients from this
+`oas-sandbox` and `gql-sandbox` can generate protobuf clients from this
 repo while keeping their HTTP and GraphQL contracts in their own projects.
 
 ## Requirements
@@ -122,5 +122,3 @@ pinned by full commit SHA instead of floating tags.
 
 - STANDARD lint rules
 - FILE-level breaking change detection
-
-### TEST 2
