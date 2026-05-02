@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "bufbuild.vscode-buf",
+        "davidanson.vscode-markdownlint",
+        "esbenp.prettier-vscode",
+        "github.vscode-github-actions",
+        "ms-vscode.makefile-tools"
+    ]
+}
