@@ -1,53 +1,53 @@
 name: Proto CI
 
 on:
-  push:
-    branches:
-      - "**"
-    paths:
-      - ".github/workflows/proto-ci.yaml"
-      - "buf.yaml"
-      - "Makefile"
-      - "**/*.proto"
-  pull_request:
-    paths:
-      - ".github/workflows/proto-ci.yaml"
-      - "buf.yaml"
-      - "Makefile"
-      - "**/*.proto"
+    push:
+        branches:
+            - "**"
+        paths:
+            - ".github/workflows/proto-ci.yaml"
+            - "buf.yaml"
+            - "Makefile"
+            - "**/*.proto"
+    pull_request:
+        paths:
+            - ".github/workflows/proto-ci.yaml"
+            - "buf.yaml"
+            - "Makefile"
+            - "**/*.proto"
 
 permissions:
-  contents: read
-  pull-requests: write
+    contents: read
+    pull-requests: write
 
 jobs:
-  proto:
-    name: Buf
-    runs-on: ubuntu-latest
-    steps:
-      # actions/checkout v6.0.2
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
-        with:
-          fetch-depth: 0
+    proto:
+        name: Buf
+        runs-on: ubuntu-latest
+        steps:
+            # actions/checkout v6.0.2
+            - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+              with:
+                  fetch-depth: 0
 
-      - name: Check breaking baseline
-        id: breaking-baseline
-        env:
-          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
-        run: |
-          git fetch origin "${DEFAULT_BRANCH}" --depth=1
+            - name: Check breaking baseline
+              id: breaking-baseline
+              env:
+                  DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+              run: |
+                  git fetch origin "${DEFAULT_BRANCH}" --depth=1
 
-          if git cat-file -e "FETCH_HEAD:buf.yaml" 2>/dev/null &&
-             git ls-tree -r --name-only FETCH_HEAD | grep -q '\.proto$'; then
-            echo "available=true" >> "${GITHUB_OUTPUT}"
-          else
-            echo "available=false" >> "${GITHUB_OUTPUT}"
-          fi
+                  if git cat-file -e "FETCH_HEAD:buf.yaml" 2>/dev/null &&
+                     git ls-tree -r --name-only FETCH_HEAD | grep -q '\.proto$'; then
+                    echo "available=true" >> "${GITHUB_OUTPUT}"
+                  else
+                    echo "available=false" >> "${GITHUB_OUTPUT}"
+                  fi
 
-      # bufbuild/buf-action v1.4.0
-      - uses: bufbuild/buf-action@fd21066df7214747548607aaa45548ba2b9bc1ff
-        with:
-          push: false
-          lint: true
-          format: true
-          breaking: ${{ steps.breaking-baseline.outputs.available }}
+            # bufbuild/buf-action v1.4.0
+            - uses: bufbuild/buf-action@fd21066df7214747548607aaa45548ba2b9bc1ff
+              with:
+                  push: false
+                  lint: true
+                  format: true
+                  breaking: ${{ steps.breaking-baseline.outputs.available }}

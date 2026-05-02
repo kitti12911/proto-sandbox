@@ -80,12 +80,12 @@ from the backend domain contract.
 
 ## Available Commands
 
-| Command             | Description                                   |
-| ------------------- | --------------------------------------------- |
-| `make lint`         | Lint protobuf files with Buf                  |
-| `make format`       | Format protobuf files in place                |
-| `make format-check` | Check protobuf formatting without writing     |
-| `make breaking`     | Check breaking changes against the main branch|
+| Command             | Description                                    |
+| ------------------- | ---------------------------------------------- |
+| `make lint`         | Lint protobuf files with Buf                   |
+| `make format`       | Format protobuf files in place                 |
+| `make format-check` | Check protobuf formatting without writing      |
+| `make breaking`     | Check breaking changes against the main branch |
 
 ## Add A Service
 
