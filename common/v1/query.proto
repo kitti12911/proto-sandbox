@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package common.v1;
+
+option go_package = "github.com/kitti12911/proto-sandbox/gen/grpc/common/v1;commonv1";
+
+message OrderBy {
+  string col = 1;
+  OrderDirection order = 2;
+}
+
+enum OrderDirection {
+  ORDER_DIRECTION_UNSPECIFIED = 0;
+  ORDER_DIRECTION_ASC = 1;
+  ORDER_DIRECTION_DESC = 2;
+}
+
+message Filter {
+  string col = 1;
+  FilterOp op = 2;
+  string val = 3;
+}
+
+enum FilterOp {
+  FILTER_OP_UNSPECIFIED = 0;
+  FILTER_OP_EXACT = 1;
+  FILTER_OP_LIKE = 2;
+  FILTER_OP_GT = 3;
+  FILTER_OP_LT = 4;
+  FILTER_OP_GTE = 5;
+  FILTER_OP_LTE = 6;
+  FILTER_OP_NULL = 7;
+  FILTER_OP_NOT_NULL = 8;
+}

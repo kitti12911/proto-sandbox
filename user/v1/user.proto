@@ -3,6 +3,7 @@ syntax = "proto3";
 package user.v1;
 
 import "common/v1/pagination.proto";
+import "common/v1/query.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -61,8 +62,8 @@ message GetUserResponse {
 
 message ListUsersRequest {
   common.v1.PaginationRequest pagination = 1;
-  string filter = 2;
-  string order_by = 3;
+  repeated common.v1.Filter filters = 2;
+  repeated common.v1.OrderBy order_by = 3;
 }
 
 message ListUsersResponse {
