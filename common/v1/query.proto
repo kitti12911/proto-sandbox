@@ -19,6 +19,7 @@ message Filter {
   string col = 1;
   FilterOp op = 2;
   string val = 3;
+  repeated string vals = 4;
 }
 
 enum FilterOp {
@@ -31,4 +32,8 @@ enum FilterOp {
   FILTER_OP_LTE = 6;
   FILTER_OP_NULL = 7;
   FILTER_OP_NOT_NULL = 8;
+  FILTER_OP_LIKE_CI = 9;
+  FILTER_OP_IN = 10;
+  FILTER_OP_BETWEEN = 11;
+  FILTER_OP_BETWEEN_EXCLUSIVE = 12;
 }
