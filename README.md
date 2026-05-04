@@ -11,6 +11,10 @@ in their own projects.
 - [buf](https://buf.build/) installed
 - VS Code with the `bufbuild/buf` extension for protobuf editing
 
+Optional:
+
+- [prettier](https://prettier.io/) for Markdown, YAML, JSON, and JSONC formatting
+
 ## Install buf
 
 macOS:
@@ -96,7 +100,9 @@ from the backend domain contract.
 | Command             | Description                                    |
 | ------------------- | ---------------------------------------------- |
 | `make lint`         | Lint protobuf files with Buf                   |
-| `make format`       | Format protobuf files in place                 |
+| `make fmt`          | Format protobuf files in place                 |
+| `make pretty`       | Format docs and config with Prettier           |
+| `make format`       | Run protobuf and Prettier formatting           |
 | `make format-check` | Check protobuf formatting without writing      |
 | `make breaking`     | Check breaking changes against the main branch |
 

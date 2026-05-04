@@ -1,11 +1,16 @@
-.PHONY: lint format format-check breaking
+.PHONY: lint fmt pretty format format-check breaking
 
 # ____________________ Buf Command ____________________
 lint:
 	buf lint
 
-format:
+fmt:
 	buf format -w
+
+pretty:
+	prettier --write "**/*.{md,markdown,yml,yaml,json,jsonc}"
+
+format: fmt pretty
 
 format-check:
 	buf format --diff --exit-code
