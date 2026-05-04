@@ -1,8 +1,10 @@
 # proto-sandbox
 
 Central protobuf definitions for sandbox services. Gateway repos such as
-`oas-sandbox` and `gql-sandbox` can generate protobuf clients from this
-repo while keeping their HTTP and GraphQL contracts in their own projects.
+[`oas-sandbox`](https://github.com/kitti12911/oas-sandbox) and
+[`gql-sandbox`](https://github.com/kitti12911/gql-sandbox) can generate
+protobuf clients from this repo while keeping their HTTP and GraphQL contracts
+in their own projects.
 
 ## Requirements
 
@@ -29,20 +31,21 @@ chmod +x /usr/local/bin/buf
 
 ## Project Structure
 
-```text
+```bash
 proto-sandbox/
-|-- common/
-|   `-- v1/
-|       `-- pagination.proto
-|-- user/
-|   `-- v1/
-|       `-- user.proto
-|-- .github/
-|   `-- workflows/
-|       `-- proto-ci.yaml
-|-- buf.yaml
-|-- Makefile
-`-- README.md
+├── common/
+│   └── v1/
+│       ├── pagination.proto
+│       └── query.proto
+├── user/
+│   └── v1/
+│       └── user.proto
+├── .github/
+│   └── workflows/
+│       └── proto-ci.yaml
+├── buf.yaml
+├── Makefile
+└── README.md
 ```
 
 ## API Shape
@@ -58,6 +61,15 @@ clearly:
 - `PatchUser`
 - `DeleteUser`
 
+`ListUsers` requests use common query messages from `common/v1/query.proto`:
+
+- `Filter` for validated field filters
+- `OrderBy` for validated sorting
+- `PaginationRequest` / `PaginationResponse` for page metadata
+
+Supported filter operators include exact, like, case-insensitive like,
+comparison operators, null checks, in, between, and exclusive between.
+
 `PatchUser` uses `google.protobuf.FieldMask` for frontend-friendly partial
 updates:
 
@@ -70,8 +82,9 @@ updates:
 Keep the protobuf source focused on the domain contract and version it through
 package paths such as `user.v1`.
 
-OpenAPI can expose stable REST paths such as `/v1/users` and keep compatibility
-through versioned HTTP routes.
+OpenAPI can expose stable REST paths such as `/v1/users` through
+[`oas-sandbox`](https://github.com/kitti12911/oas-sandbox) and keep
+compatibility through versioned HTTP routes.
 
 GraphQL usually does not need separate protobuf packages. Prefer one evolving
 GraphQL schema with additive fields and deprecations at the gateway layer. Add
