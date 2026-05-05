@@ -95,6 +95,20 @@ GraphQL schema with additive fields and deprecations at the gateway layer. Add
 gateway-specific protobuf files only when a gateway contract genuinely diverges
 from the backend domain contract.
 
+## Contract Releases
+
+The shared protobuf contract is released with semantic-release:
+
+- `develop` publishes beta versions such as `v1.2.0-beta.1`.
+- `uat` publishes release candidates such as `v1.2.0-rc.1`.
+- `main` publishes stable versions such as `v1.2.0`.
+
+Use Conventional Commits to describe contract changes:
+
+- `feat:` for new protobuf APIs or fields.
+- `fix:` for compatible corrections.
+- `feat!:` or `BREAKING CHANGE:` for incompatible contract changes.
+
 ## Available Commands
 
 | Command             | Description                                    |

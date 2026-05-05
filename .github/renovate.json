@@ -4,7 +4,20 @@
     "timezone": "Asia/Bangkok",
     "schedule": ["* 0-4 1 * *"],
     "updateNotScheduled": false,
-    "enabledManagers": ["github-actions"],
+    "enabledManagers": ["github-actions", "custom.regex"],
+    "customManagers": [
+        {
+            "customType": "regex",
+            "description": "Update semantic-release packages installed in GitHub Actions",
+            "managerFilePatterns": [
+                "/(^|/)\\.github/workflows/[^/]+\\.ya?ml$/"
+            ],
+            "matchStrings": [
+                "(?<depName>(?:@semantic-release/[\\w-]+|semantic-release|conventional-changelog-conventionalcommits))@(?<currentValue>\\d+\\.\\d+\\.\\d+)"
+            ],
+            "datasourceTemplate": "npm"
+        }
+    ],
     "reviewersFromCodeOwners": true,
     "assigneesFromCodeOwners": true,
     "assignAutomerge": true

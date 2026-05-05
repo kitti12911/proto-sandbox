@@ -3,6 +3,8 @@ name: Markdownlint
 on:
     push:
         branches:
+            - develop
+            - uat
             - main
         paths:
             - ".github/workflows/markdownlint.yml"
