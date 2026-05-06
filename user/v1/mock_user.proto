@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package user.v1;
+
+option go_package = "github.com/kitti12911/proto-sandbox/gen/grpc/user/v1;userv1";
+
+service MockUserService {
+  rpc GetMockUser(GetMockUserRequest) returns (GetMockUserResponse) {}
+}
+
+message MockUser {
+  string id = 1;
+  string name = 2;
+}
+
+message GetMockUserRequest {
+  string id = 1;
+}
+
+message GetMockUserResponse {
+  MockUser user = 1;
+}
