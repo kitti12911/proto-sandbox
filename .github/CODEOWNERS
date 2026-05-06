@@ -5,5 +5,3 @@
 /Makefile @kitti12911
 /buf.yaml @kitti12911
 /.releaserc.json @kitti12911
-
-# this is for test command only.

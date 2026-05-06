@@ -3,12 +3,12 @@ name: Proto CI
 on:
     push:
         branches:
-            - develop
-            - uat
             - main
         paths:
-            - ".releaserc.json"
+            - ".github/release-please*.json"
             - ".github/workflows/proto-ci.yaml"
+            - ".github/workflows/release.yml"
+            - "CHANGELOG.md"
             - "buf.yaml"
             - "Makefile"
             - "**/*.proto"
@@ -16,8 +16,10 @@ on:
             - "**/*.yaml"
     pull_request:
         paths:
-            - ".releaserc.json"
+            - ".github/release-please*.json"
             - ".github/workflows/proto-ci.yaml"
+            - ".github/workflows/release.yml"
+            - "CHANGELOG.md"
             - "buf.yaml"
             - "Makefile"
             - "**/*.proto"
@@ -59,33 +61,3 @@ jobs:
                   lint: true
                   format: true
                   breaking: ${{ steps.breaking-baseline.outputs.available }}
-
-    version:
-        name: Semantic Version
-        runs-on: ubuntu-latest
-        needs:
-            - proto
-        if: github.event_name == 'push'
-        permissions:
-            contents: write
-            issues: write
-            pull-requests: write
-        steps:
-            # actions/checkout v6.0.2
-            - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
-              with:
-                  fetch-depth: 0
-
-            - name: Install semantic-release
-              run: |
-                  npm install --no-save --no-package-lock \
-                      semantic-release@24.2.7 \
-                      @semantic-release/commit-analyzer@13.0.1 \
-                      @semantic-release/release-notes-generator@14.0.3 \
-                      @semantic-release/github@11.0.6 \
-                      conventional-changelog-conventionalcommits@8.0.0
-
-            - name: Publish semantic release
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              run: npx semantic-release
