@@ -43,10 +43,12 @@ proto-sandbox/
 │       └── query.proto
 ├── user/
 │   └── v1/
+│       ├── mock_user.proto
 │       └── user.proto
 ├── .github/
 │   └── workflows/
-│       └── proto-ci.yaml
+│       ├── proto-ci.yaml
+│       └── release.yml
 ├── buf.yaml
 ├── Makefile
 └── README.md
@@ -97,11 +99,9 @@ from the backend domain contract.
 
 ## Contract Releases
 
-The shared protobuf contract is released with semantic-release:
-
-- `develop` publishes beta versions such as `v1.2.0-beta.1`.
-- `uat` publishes release candidates such as `v1.2.0-rc.1`.
-- `main` publishes stable versions such as `v1.2.0`.
+The shared protobuf contract is released from `main` with release-please.
+Release pull requests collect Conventional Commit changes and publish stable
+versions such as `v1.2.0` after they are merged.
 
 Use Conventional Commits to describe contract changes:
 
