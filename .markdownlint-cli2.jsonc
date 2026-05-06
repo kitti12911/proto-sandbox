@@ -3,5 +3,5 @@
         "MD013": false
     },
     "globs": ["**/*.{md,markdown}"],
-    "ignores": [".github/CODEOWNERS", ".codex/**"]
+    "ignores": [".github/CODEOWNERS", "CHANGELOG.md", ".codex/**"]
 }
