@@ -113,7 +113,9 @@ Use Conventional Commits to describe contract changes:
 
 | Command             | Description                                    |
 | ------------------- | ---------------------------------------------- |
-| `make lint`         | Lint protobuf files with Buf                   |
+| `make lint`         | Run protobuf and Markdown linting              |
+| `make lint-proto`   | Lint protobuf files with Buf                   |
+| `make markdownlint` | Lint Markdown files                            |
 | `make fmt`          | Format protobuf files in place                 |
 | `make pretty`       | Format docs and config with Prettier           |
 | `make format`       | Run protobuf and Prettier formatting           |

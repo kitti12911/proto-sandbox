@@ -1,8 +1,13 @@
-.PHONY: lint fmt pretty format format-check breaking
+.PHONY: lint lint-proto markdownlint fmt pretty format format-check breaking
 
 # ____________________ Buf Command ____________________
-lint:
+lint: lint-proto markdownlint
+
+lint-proto:
 	buf lint
+
+markdownlint:
+	markdownlint-cli2
 
 fmt:
 	buf format -w
