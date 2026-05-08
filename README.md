@@ -109,6 +109,20 @@ Use Conventional Commits to describe contract changes:
 - `fix:` for compatible corrections.
 - `feat!:` or `BREAKING CHANGE:` for incompatible contract changes.
 
+CI runs Buf breaking-change checks on pull requests and pushes. Pull requests
+always fail on breaking protobuf changes. On a push to `main`, an intentional
+breaking release can continue only when the head commit message contains
+`[allow-breaking-api]`.
+
+Example intentional breaking release message:
+
+```text
+feat!: rename user status enum values [allow-breaking-api]
+```
+
+Use the bypass only after the breaking change has been reviewed and called out
+in release notes for downstream consumers.
+
 ## Available Commands
 
 | Command             | Description                                    |
