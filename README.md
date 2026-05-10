@@ -43,7 +43,6 @@ proto-sandbox/
 │       └── query.proto
 ├── user/
 │   └── v1/
-│       ├── mock_user.proto
 │       └── user.proto
 ├── .github/
 │   └── workflows/
