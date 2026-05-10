@@ -44,6 +44,9 @@ proto-sandbox/
 ├── user/
 │   └── v1/
 │       └── user.proto
+├── worker/
+│   └── v1/
+│       └── worker.proto
 ├── .github/
 │   └── workflows/
 │       ├── proto-ci.yaml
@@ -81,6 +84,14 @@ updates:
 - Field not in `update_mask`: leave unchanged
 - Field in `update_mask` with an empty or default value: clear or reset
 - Field in `update_mask` with a value: update
+
+`worker/v1/worker.proto` defines the `worker.v1.WorkerService` service for
+submitting background jobs to worker-backed systems:
+
+- `SubmitJob`
+
+`SubmitJob` carries a job id, type, and JSON object payload. The gateway or
+backend implementation owns transport details such as the broker topic.
 
 ## Gateway Versioning
 

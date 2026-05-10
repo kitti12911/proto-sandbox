@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package worker.v1;
+
+import "google/protobuf/struct.proto";
+
+option go_package = "github.com/kitti12911/proto-sandbox/gen/grpc/worker/v1;workerv1";
+
+service WorkerService {
+  rpc SubmitJob(SubmitJobRequest) returns (SubmitJobResponse) {}
+}
+
+message WorkerJob {
+  string id = 1;
+  string type = 2;
+  google.protobuf.Struct payload = 3;
+}
+
+message SubmitJobRequest {
+  WorkerJob job = 1;
+}
+
+message SubmitJobResponse {
+  string id = 1;
+}
