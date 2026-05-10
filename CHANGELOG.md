@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/kitti12911/proto-sandbox/compare/v1.4.0...v1.5.0) (2026-05-10)
+
+
+### Features
+
+* add WorkerService ([ed08f9f](https://github.com/kitti12911/proto-sandbox/commit/ed08f9f50f9b6075b93e21b79bb8810b46da7e5e))
+
 ## [1.4.0](https://github.com/kitti12911/proto-sandbox/compare/v1.3.0...v1.4.0) (2026-05-10)
 
 
