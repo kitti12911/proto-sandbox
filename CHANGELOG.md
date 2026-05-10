@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/kitti12911/proto-sandbox/compare/v1.3.0...v1.4.0) (2026-05-10)
+
+
+### Features
+
+* remove mock ([10d4ca5](https://github.com/kitti12911/proto-sandbox/commit/10d4ca56e6ec06d64c30bf013eafab8a7627dadc))
+
 ## [1.3.0](https://github.com/kitti12911/proto-sandbox/compare/v1.2.0...v1.3.0) (2026-05-08)
 
 
