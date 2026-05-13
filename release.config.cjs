@@ -1,3 +1,23 @@
+const isGitLab = process.env.GITLAB_CI === "true";
+
+const providerPlugin = isGitLab
+    ? [
+          "@semantic-release/gitlab",
+          {
+              successComment: false,
+              failComment: false,
+              labels: false
+          }
+      ]
+    : [
+          "@semantic-release/github",
+          {
+              successComment: false,
+              failComment: false,
+              releasedLabels: false
+          }
+      ];
+
 module.exports = {
     branches: ["main"],
     tagFormat: "v${version}",
@@ -62,13 +82,6 @@ module.exports = {
                 }
             }
         ],
-        [
-            "@semantic-release/github",
-            {
-                successComment: false,
-                failComment: false,
-                releasedLabels: false
-            }
-        ]
+        providerPlugin
     ]
 };

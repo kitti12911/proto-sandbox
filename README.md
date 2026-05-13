@@ -162,8 +162,16 @@ toolchain container instead of duplicating commands in CI YAML:
 | `scripts/ci/semantic-release-plan.sh`    | Preview the next semantic release     |
 | `scripts/ci/semantic-release-publish.sh` | Publish a semantic release            |
 
-GitHub maps its workflow values to these script inputs. GitLab can run the same
-scripts from the same toolchain images with its own CI variables.
+GitHub maps its workflow values to these script inputs. GitLab uses full image
+references so the private mirror can point at Harbor without changing these
+scripts:
+
+| GitLab variable              | Purpose                                  |
+| ---------------------------- | ---------------------------------------- |
+| `CI_IMAGE_TOOLCHAIN_IMAGE`   | Image for Buf lint, format, and breaking |
+| `CI_RELEASE_TOOLCHAIN_IMAGE` | Image for Markdownlint and release       |
+| `GITLAB_AMD64_RUNNER_TAG`    | Optional runner tag override             |
+| `GL_TOKEN` or `GITLAB_TOKEN` | GitLab semantic-release API/write token  |
 
 ## Add A Service
 
