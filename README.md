@@ -109,9 +109,9 @@ from the backend domain contract.
 
 ## Contract Releases
 
-The shared protobuf contract is released from `main` with release-please.
-Release pull requests collect Conventional Commit changes and publish stable
-versions such as `v1.2.0` after they are merged.
+The shared protobuf contract is released from `main` with semantic-release.
+Conventional Commit messages decide the next version and publish stable tags
+such as `v1.2.0`.
 
 Use Conventional Commits to describe contract changes:
 
@@ -135,16 +135,35 @@ in release notes for downstream consumers.
 
 ## Available Commands
 
-| Command             | Description                                    |
-| ------------------- | ---------------------------------------------- |
-| `make lint`         | Run protobuf and Markdown linting              |
-| `make lint-proto`   | Lint protobuf files with Buf                   |
-| `make markdownlint` | Lint Markdown files                            |
-| `make fmt`          | Format protobuf files in place                 |
-| `make pretty`       | Format docs and config with Prettier           |
-| `make format`       | Run protobuf and Prettier formatting           |
-| `make format-check` | Check protobuf formatting without writing      |
-| `make breaking`     | Check breaking changes against the main branch |
+| Command                | Description                                    |
+| ---------------------- | ---------------------------------------------- |
+| `make lint`            | Run protobuf and Markdown linting              |
+| `make lint-proto`      | Lint protobuf files with Buf                   |
+| `make markdownlint`    | Lint Markdown files                            |
+| `make fmt`             | Format protobuf files in place                 |
+| `make pretty`          | Format docs and config with Prettier           |
+| `make format`          | Run protobuf and Prettier formatting           |
+| `make format-check`    | Check protobuf formatting without writing      |
+| `make breaking`        | Check breaking changes against the main branch |
+| `make release-plan`    | Preview the next semantic-release version      |
+| `make release-publish` | Publish a semantic release                     |
+
+## CI Scripts
+
+Provider workflows should call the reusable scripts under `scripts/ci/` from a
+toolchain container instead of duplicating commands in CI YAML:
+
+| Script                                   | Description                           |
+| ---------------------------------------- | ------------------------------------- |
+| `scripts/ci/proto-lint.sh`               | Lint protobuf files with Buf          |
+| `scripts/ci/proto-format-check.sh`       | Check protobuf formatting             |
+| `scripts/ci/proto-breaking.sh`           | Check protobuf breaking changes       |
+| `scripts/ci/markdownlint.sh`             | Run markdownlint-cli2 with pinned npx |
+| `scripts/ci/semantic-release-plan.sh`    | Preview the next semantic release     |
+| `scripts/ci/semantic-release-publish.sh` | Publish a semantic release            |
+
+GitHub maps its workflow values to these script inputs. GitLab can run the same
+scripts from the same toolchain images with its own CI variables.
 
 ## Add A Service
 
@@ -174,8 +193,8 @@ make format-check
 ## CI
 
 GitHub Actions runs Buf lint, format, and breaking-change checks on pushes and
-pull requests that touch protobuf or tooling files. Third-party actions are
-pinned by full commit SHA instead of floating tags.
+pull requests that touch protobuf or tooling files. The workflow uses pinned
+toolchain container digests and calls the reusable scripts under `scripts/ci/`.
 
 `buf.yaml` uses:
 
