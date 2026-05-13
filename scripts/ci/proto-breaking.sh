@@ -4,6 +4,8 @@ set -eu
 repo_dir="${CI_PROJECT_DIR:-$(pwd)}"
 cd "${repo_dir}"
 
+git config --global --add safe.directory "${repo_dir}" 2>/dev/null || true
+
 against="${PROTO_BREAKING_AGAINST:-}"
 base_branch="${PROTO_BREAKING_BASE_BRANCH:-}"
 allow_breaking="${PROTO_ALLOW_BREAKING:-false}"
