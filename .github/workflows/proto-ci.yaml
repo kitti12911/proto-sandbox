@@ -5,24 +5,26 @@ on:
         branches:
             - main
         paths:
-            - ".github/release-please*.json"
             - ".github/workflows/proto-ci.yaml"
             - ".github/workflows/release.yml"
             - "CHANGELOG.md"
             - "buf.yaml"
             - "Makefile"
+            - "release.config.cjs"
+            - "scripts/ci/**"
             - "**/*.proto"
             - "**/*.yml"
             - "**/*.yaml"
             - "!README.md"
     pull_request:
         paths:
-            - ".github/release-please*.json"
             - ".github/workflows/proto-ci.yaml"
             - ".github/workflows/release.yml"
             - "CHANGELOG.md"
             - "buf.yaml"
             - "Makefile"
+            - "release.config.cjs"
+            - "scripts/ci/**"
             - "**/*.proto"
             - "**/*.yml"
             - "**/*.yaml"
@@ -40,69 +42,35 @@ jobs:
     proto:
         name: Buf
         runs-on: ubuntu-latest
+        container:
+            image: ${{ vars.TOOLCHAIN_REGISTRY }}/${{ vars.TOOLCHAIN_IMAGE_NAMESPACE }}/image-toolchain@sha256:55e03f1a59c20fbd37a400a95924be84fbd1814db2bf511c4fdb3fdefbcf6b2c
+            credentials:
+                username: ${{ secrets.TOOLCHAIN_REGISTRY_USERNAME }}
+                password: ${{ secrets.TOOLCHAIN_REGISTRY_PASSWORD }}
         steps:
             # actions/checkout v6.0.2
             - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
               with:
                   fetch-depth: 0
 
-            - name: Check breaking baseline
-              id: breaking-baseline
-              env:
-                  DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
-              run: |
-                  git fetch origin "${DEFAULT_BRANCH}" --depth=1
+            - name: Lint protobuf
+              run: ./scripts/ci/proto-lint.sh
 
-                  if git cat-file -e "FETCH_HEAD:buf.yaml" 2>/dev/null &&
-                     git ls-tree -r --name-only FETCH_HEAD | grep -q '\.proto$'; then
-                    git branch --force breaking-baseline FETCH_HEAD
-                    echo "available=true" >> "${GITHUB_OUTPUT}"
-                  else
-                    echo "available=false" >> "${GITHUB_OUTPUT}"
-                  fi
-
-            # bufbuild/buf-action v1.4.0
-            - uses: bufbuild/buf-action@fd21066df7214747548607aaa45548ba2b9bc1ff
-              with:
-                  push: false
-                  lint: true
-                  format: true
-                  breaking: false
+            - name: Check protobuf format
+              run: ./scripts/ci/proto-format-check.sh
 
             - name: Check breaking changes
               env:
-                  ALLOW_BREAKING_MESSAGE: "[allow-breaking-api]"
-                  DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+                  GITHUB_EVENT_NAME: ${{ github.event_name }}
+                  PROTO_BREAKING_BASE_BRANCH: ${{ github.event.repository.default_branch }}
+                  PROTO_ALLOW_BREAKING_MESSAGE: "[allow-breaking-api]"
               run: |
-                  if [ "${{ steps.breaking-baseline.outputs.available }}" != "true" ]; then
-                      echo "Skipping breaking check: ${DEFAULT_BRANCH} has no protobuf baseline yet."
-                      exit 0
-                  fi
-
-                  allow_breaking=false
+                  git config --global --add safe.directory "$(pwd)"
                   if [ "${GITHUB_EVENT_NAME}" = "push" ] &&
-                     git log -1 --pretty=%B | grep -Fq "${ALLOW_BREAKING_MESSAGE}"; then
-                      allow_breaking=true
+                     git log -1 --pretty=%B | grep -Fq "${PROTO_ALLOW_BREAKING_MESSAGE}"; then
+                      PROTO_ALLOW_BREAKING=true
+                  else
+                      PROTO_ALLOW_BREAKING=false
                   fi
-
-                  set +e
-                  buf breaking --against '.git#branch=breaking-baseline'
-                  breaking_status="$?"
-                  set -e
-
-                  if [ "${breaking_status}" -eq 0 ]; then
-                      exit 0
-                  fi
-
-                  if [ "${allow_breaking}" = "true" ]; then
-                      {
-                          echo "## Protobuf breaking changes"
-                          echo
-                          echo "Breaking changes were detected, but release is allowed because \`${ALLOW_BREAKING_MESSAGE}\` is present in the head commit message."
-                      } >> "${GITHUB_STEP_SUMMARY}"
-                      exit 0
-                  fi
-
-                  echo "Protobuf breaking changes detected."
-                  echo "Use ${ALLOW_BREAKING_MESSAGE} in the head commit message to allow an intentional breaking release on push."
-                  exit "${breaking_status}"
+                  export PROTO_ALLOW_BREAKING
+                  ./scripts/ci/proto-breaking.sh
