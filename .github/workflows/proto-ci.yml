@@ -5,7 +5,7 @@ on:
         branches:
             - main
         paths:
-            - ".github/workflows/proto-ci.yaml"
+            - ".github/workflows/proto-ci.yml"
             - ".github/workflows/release.yml"
             - "CHANGELOG.md"
             - "buf.yaml"
@@ -18,7 +18,7 @@ on:
             - "!README.md"
     pull_request:
         paths:
-            - ".github/workflows/proto-ci.yaml"
+            - ".github/workflows/proto-ci.yml"
             - ".github/workflows/release.yml"
             - "CHANGELOG.md"
             - "buf.yaml"
@@ -43,7 +43,7 @@ jobs:
         name: Buf
         runs-on: ubuntu-latest
         container:
-            image: ${{ vars.TOOLCHAIN_REGISTRY }}/${{ vars.TOOLCHAIN_IMAGE_NAMESPACE }}/image-toolchain@sha256:55e03f1a59c20fbd37a400a95924be84fbd1814db2bf511c4fdb3fdefbcf6b2c
+            image: ${{ vars.IMAGE_TOOLCHAIN_IMAGE }}
             credentials:
                 username: ${{ secrets.TOOLCHAIN_REGISTRY_USERNAME }}
                 password: ${{ secrets.TOOLCHAIN_REGISTRY_PASSWORD }}
