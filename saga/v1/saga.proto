@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package saga.v1;
+
+option go_package = "github.com/kitti12911/proto-sandbox/gen/grpc/saga/v1;sagav1";
+
+service SagaService {
+  rpc StartPayment(StartPaymentRequest) returns (StartPaymentResponse) {}
+  rpc GetSaga(GetSagaRequest) returns (GetSagaResponse) {}
+}
+
+message StartPaymentRequest {
+  string idempotency_key = 1;
+  string account_id = 2;
+  int64 amount = 3;
+  string currency = 4;
+}
+
+message StartPaymentResponse {
+  string saga_id = 1;
+  string state = 2;
+}
+
+message GetSagaRequest {
+  string saga_id = 1;
+}
+
+message GetSagaResponse {
+  string saga_id = 1;
+  string state = 2;
+  int32 current_step = 3;
+  string last_error = 4;
+}
