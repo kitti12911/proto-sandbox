@@ -159,19 +159,10 @@ toolchain container instead of duplicating commands in CI YAML:
 | `scripts/ci/proto-format-check.sh`       | Check protobuf formatting             |
 | `scripts/ci/proto-breaking.sh`           | Check protobuf breaking changes       |
 | `scripts/ci/markdownlint.sh`             | Run markdownlint-cli2 with pinned npx |
-| `scripts/ci/semantic-release-plan.sh`    | Preview the next semantic release     |
 | `scripts/ci/semantic-release-publish.sh` | Publish a semantic release            |
 
-GitHub maps its workflow values to these script inputs. GitLab uses full image
-references so the private mirror can point at Harbor without changing these
-scripts:
-
-| GitLab variable              | Purpose                                  |
-| ---------------------------- | ---------------------------------------- |
-| `CI_IMAGE_TOOLCHAIN_IMAGE`   | Image for Buf lint, format, and breaking |
-| `CI_RELEASE_TOOLCHAIN_IMAGE` | Image for Markdownlint and release       |
-| `GITLAB_AMD64_RUNNER_TAG`    | Optional runner tag override             |
-| `GL_TOKEN` or `GITLAB_TOKEN` | GitLab semantic-release API/write token  |
+The GitHub workflow resolves shared toolchain images through repository
+variables; the scripts themselves are CI-agnostic.
 
 ## Add A Service
 
