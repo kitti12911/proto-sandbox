@@ -17,7 +17,7 @@ enum OrderDirection {
 
 // Filter is a recursive predicate. A leaf carries col/op/val(s); a group carries
 // logic + nested filters (col/op/val(s) ignored). A group is any node whose
-// filters field is non-empty.
+// filters field is non-empty. LOGICAL_OP_UNSPECIFIED is treated as AND.
 message Filter {
   string col = 1;
   FilterOp op = 2;
